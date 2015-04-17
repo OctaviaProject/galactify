@@ -5,13 +5,17 @@ replaceCharAt = (str, char, i) ->
     str.substr(0, i) + char + str.substr(i + 1)
 
 capitalize = (str) ->
-    str.charAt(0).toUpperCase() + str.slice(1)
+    words = str.split " "
+    words = (word.charAt(0).toUpperCase() + word.slice(1) for word in words)
+    words.join " "
 
 pickFrom = (list) ->
     list[randint list.length]
         
 vowels = "aeoiu"
 consonants = "bcdfghjklmnpqrstvwxyz"
+
+tFade = 2000
 
 morph = (name, K) ->
     name = name.toLowerCase()
@@ -23,16 +27,32 @@ morph = (name, K) ->
             new_letter = vowels[randint vowels.length]
         else if letter in consonants
             new_letter = consonants[randint consonants.length]
+        else
+            new_letter = letter
         name = replaceCharAt name, new_letter, i
     capitalize name
 
-$('#morph-me') .click (e) -> 
+morphMe = ->
     name = $('#name').val()
-    K = name.length - 2
+    K = name.length / 4
     res = result morph name, K
-    $('#output').html res
-    $('#output-div').fadeIn("slow")
- 
+    snapshot()
+    $('#bio').html res 
+    fadeInOutput = -> $('#output').fadeIn tFade
+    $('#input').fadeOut tFade, fadeInOutput
+
+reset = ->
+    $('#name').val ''
+    fadeInInput = -> $('#input').fadeIn tFade
+    $('#output').fadeOut tFade, fadeInInput
+
+$(document) .keypress (e) ->
+    if e.which is 13 then morphMe()
+
+$('#morph-me') .click (e) -> morphMe()
+
+$('#again') .click (e) -> reset()
+
 result = (name) ->
   adjective = pickFrom adjectives
   job = pickFrom jobs
@@ -51,6 +71,7 @@ adjectives = [
     "adventurous",
     "angelic",
     "bubbly",
+    "big-haired",
     "benevolent",
     "charming",
     "geometric",
@@ -81,6 +102,7 @@ adjectives = [
     "metallic",
     "gleaming",
     "recursive",
+    "bioluminescent",
     "notable",
     "old-fashioned",
     "opulent",
@@ -125,7 +147,8 @@ jobs = [
     "financier",
     "fortune teller",
     "cleric",
-    "navigator",
+    "ball of pure energy",
+    "pixie",
     "wraith",
     "security officer",
     "librarian",
@@ -142,5 +165,5 @@ jobs = [
     "swindler",
     "beastmaster",
     "scrap collector",
-    "bureaucrat",
+    "bureaucrat"
 ]
