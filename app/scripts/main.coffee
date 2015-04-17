@@ -37,6 +37,7 @@ morphMe = ->
     K = name.length / 4
     res = result morph name, K
     snapshot()
+    morphPhoto()
     $('#bio').html res 
     fadeInOutput = -> $('#output').fadeIn tFade
     $('#input').fadeOut tFade, fadeInOutput
@@ -58,6 +59,19 @@ result = (name) ->
   job = pickFrom jobs
   planet = "earth"
   "You are #{name}, the #{adjective} #{job} from planet #{planet}."
+
+morphPhoto = ->
+    Caman "#photo", ->
+        @.colorize (randint 255), (randint 255), (randint 255), randint 20
+        # @.greyscale()
+        # @.invert()
+        @.brightness (randint 50) - 20
+        @.saturation (randint 60) - 20
+        @.hue 90
+        @.contrast 10
+        @.exposure 4
+        @.noise randint 15
+        @.render()
 
 adjectives = [
     "honorable",
