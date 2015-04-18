@@ -34,7 +34,7 @@ morph = (name, K) ->
 
 morphMe = ->
     name = $('#name').val()
-    K = name.length / 4
+    K = name.length / 3
     res = result morph name, K
     snapshot()
     morphPhoto()
@@ -44,7 +44,9 @@ morphMe = ->
 
 reset = ->
     $('#name').val ''
-    fadeInInput = -> $('#input').fadeIn tFade
+    fadeInInput = -> 
+        $('#input').fadeIn tFade
+        Caman '#photo', -> @.reset()
     $('#output').fadeOut tFade, fadeInInput
 
 $(document) .keypress (e) ->
@@ -55,22 +57,41 @@ $('#morph-me') .click (e) -> morphMe()
 $('#again') .click (e) -> reset()
 
 result = (name) ->
-  adjective = pickFrom adjectives
-  job = pickFrom jobs
-  planet = "earth"
-  "You are #{name}, the #{adjective} #{job} from planet #{planet}."
+    adjective = pickFrom adjectives
+    job = pickFrom jobs
+    planet = "earth"
+    "You are #{name}, the #{adjective} #{job} from planet #{planet}."
+
+navigator.getUserMedia = navigator.getUserMedia or
+                         navigator.webkitGetUserMedia or
+                         navigator.mozGetUserMedia or
+                         navigator.msGetUserMedia
+
+video = document.querySelector('video')
+canvas = document.querySelector('canvas')
+ctx = canvas.getContext('2d');
+localMediaStream = null;
+
+snapshot = -> 
+    if localMediaStream then ctx.drawImage video, 0, 0, 300, 300
+
+mediaCallback = (s) -> 
+    video.src = window.URL.createObjectURL(s)
+    localMediaStream = s
+
+mediaErrback = ->
+    console.log 'foo'
+
+navigator.getUserMedia { video: true }, mediaCallback, mediaErrback
 
 morphPhoto = ->
     Caman "#photo", ->
-        @.colorize (randint 255), (randint 255), (randint 255), randint 20
-        # @.greyscale()
-        # @.invert()
-        @.brightness (randint 50) - 20
-        @.saturation (randint 60) - 20
-        @.hue 90
-        @.contrast 10
-        @.exposure 4
-        @.noise randint 15
+        @.brightness 5
+        @.saturation (randint 80) - 20
+        @.contrast 60
+        @.clip (20 + randint 30)
+        @.hue randint 100
+        @.exposure 30
         @.render()
 
 adjectives = [
@@ -158,6 +179,8 @@ jobs = [
     "roboticist",
     "pilot",
     "net-girl",
+    "it-girl",
+    "idol",
     "financier",
     "fortune teller",
     "cleric",
@@ -168,16 +191,19 @@ jobs = [
     "librarian",
     "doctor",
     "spy",
-    "artist",
+    "romance novelist",
     "hacker",
     "plant creature",
     "thief",
+    "charlatan",
     "pegasus",
     "minotaur",
     "banshee",
+    "dancer",
     "sorcerer",
     "swindler",
     "beastmaster",
     "scrap collector",
+    "mind harpist",
     "bureaucrat"
 ]

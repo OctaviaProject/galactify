@@ -27,7 +27,9 @@
           <div class="input-group">
             <input type="text" 
                    class="form-control" 
-                   id="name" placeholder="earth name" 
+                   id="name" 
+                   placeholder="earth name" 
+                   autocomplete="off" 
                    style="font-size: 40px; text-align: center; margin-right: 20px; height: 70px;">
             <span class="input-group-btn">
               <button id="morph-me" 
@@ -49,31 +51,11 @@
                     style="font-size: 20px; height: 70px; background-color: transparent; color: white;">Again</button>
         </div>
 
+        <div id="gallery" style="display:none;"></div>
+
       </div>
 
     </div>
-
-        
-    <script>
-      var video = document.querySelector('video');
-      var canvas = document.querySelector('canvas');
-      var ctx = canvas.getContext('2d');
-      var localMediaStream = null;
-    
-      function snapshot() {
-        if (localMediaStream) {
-          ctx.drawImage(video, 0, 0, 300, 300);
-        }
-      }
-    
-      video.addEventListener('click', snapshot, false);
-    
-      // Not showing vendor prefixes or code that works cross-browser.
-      navigator.webkitGetUserMedia({video: true}, function(stream) {
-        video.src = window.URL.createObjectURL(stream);
-        localMediaStream = stream;
-      }, function(){ console.log('foo') });
-    </script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
