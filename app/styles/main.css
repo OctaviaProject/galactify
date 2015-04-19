@@ -34,22 +34,33 @@ body {
   margin-top: 40px;
 }
 
-#again {
+#menu {
+  text-align: center;
+}
+
+#again, #gallery {
   margin-top: 40px;
 }
 
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+#gallery-view {
+  text-align: center;
+  padding-top: 50px;
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
+.bio-container > img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
 }
 
-.marketing p + h4 {
-  margin-top: 28px;
+.bio-container {
+  width: 220px;
+  height: 280px;
+  display: inline-block;
+}
+
+.bio-container > span {
+  font-size: 1.4em;
 }
 
 /* Responsive: Portrait tablets and up */

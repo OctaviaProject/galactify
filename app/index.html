@@ -40,18 +40,31 @@
           </div><!-- /input-group -->
         </div>
 
-        <div id="output" style="display:none;">
+        <div id="results-view" style="display:none;">
+          <div id="output">
             <p class="lead" id="bio"></p>
             <video autoplay style="display: none;"></video>
             <canvas id="photo" width=300 height=300 style="border-radius: 150px;"></canvas>
-            <br style="clear: both;" />
+          </div>
+          <div id="menu">
             <button id="again" 
                     class="btn btn-default" 
                     type="button" 
                     style="font-size: 20px; height: 70px; background-color: transparent; color: white;">Again</button>
+            <button id="gallery" 
+                    class="btn btn-default" 
+                    type="button" 
+                    style="font-size: 20px; height: 70px; background-color: transparent; color: white;">Gallery</button>
+          </div>
         </div>
 
-        <div id="gallery" style="display:none;"></div>
+        <div id="gallery-view" style="display:none;">
+            <br />
+            <button id="back" 
+                    class="btn btn-default" 
+                    type="button" 
+                    style="font-size: 20px; height: 70px; background-color: transparent; color: white;">Back</button>
+        </div>
 
       </div>
 
