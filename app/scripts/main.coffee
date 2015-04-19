@@ -15,7 +15,7 @@ pickFrom = (list) ->
 vowels = "aeoiu"
 consonants = "bcdfghjklmnpqrstvwxyz"
 
-tFade = 2000
+tFade = 1000
 
 morph = (name, K) ->
     name = name.toLowerCase()
@@ -37,7 +37,7 @@ morphMe = ->
     K = name.length / 3
     morphedName = morph name, K
     res = result morphedName
-    bio = "You are #{morphedName}, the #{res.adjective} #{res.job} from planet #{res.planet}."
+    bio = "You are #{morphedName}, the #{res.adjective} #{res.job} from #{res.planet}."
     snapshot()
     morphPhoto()
     $('#bio').html bio
@@ -45,6 +45,16 @@ morphMe = ->
         $('#results-view').fadeIn tFade
         addToGallery(morphedName, res.adjective, res.job, res.planet)
     $('#input').fadeOut tFade, fadeInOutput
+
+getPlanetName = ->
+    N = 1 + randint 7
+    if Math.random() < 0.3 then vowel is true
+    name = ''
+    for x in [0..N]
+        c = if vowel then pickFrom vowels else pickFrom consonants
+        vowel = not vowel
+        name += c
+    capitalize name 
 
 reset = ->
     $('#name').val ''
@@ -72,8 +82,10 @@ $('#back') .click (e) ->
 result = (name) ->
     adjective = pickFrom adjectives
     job = pickFrom jobs
-    planet = "earth"
-    return { 'adjective': adjective, 'job': job, 'planet': planet }
+    planet = getPlanetName()
+    planetType = pickFrom planetTypes
+    planetPhrase = planetType.replace "%%planet%%", planet
+    return { 'adjective': adjective, 'job': job, 'planet': planetPhrase }
 
 navigator.getUserMedia = navigator.getUserMedia or
                          navigator.webkitGetUserMedia or
@@ -124,12 +136,14 @@ navigator.getUserMedia { video: true }, mediaCallback, mediaErrback
 
 morphPhoto = ->
     Caman "#photo", ->
-        @.brightness 10
+        @.brightness 20
         @.saturation (randint 80) - 20
         @.contrast 40
-        @.clip (20 + randint 40)
+        @.clip (10 + randint 60)
         @.hue randint 100
         @.exposure 30
+        @.sepia randint 60
+        @.sharpen randint 100
         @.render()
 
 adjectives = [
@@ -139,7 +153,6 @@ adjectives = [
     "wise",
     "adolescent",
     "atemporal",
-    "acrobatic",
     "analog",
     "adventurous",
     "angelic",
@@ -161,7 +174,7 @@ adjectives = [
     "flickering",
     "French",
     "gleaming",
-    "grandiose",
+    "majestic",
     "hilarious",
     "handsome",
     "hospitable",
@@ -194,12 +207,19 @@ adjectives = [
     "virtual",
     "holographic",
     "teenage",
-    "zesty"
+    "zesty",
+    "wide-eyed",
+    "bite-sized",
+    "reclusive",
+    "subterranean",
+    "microscopic"
 ]
 
 jobs = [
     "shapeshifter",
     "android",
+    "cephalopod",
+    "disembodied head",
     "alchemist",
     "barber",
     "engineer",
@@ -215,6 +235,8 @@ jobs = [
     "bounty hunter",
     "mathematician",
     "roboticist",
+    "insectoid",
+    "clone",
     "pilot",
     "net-girl",
     "it-girl",
@@ -246,3 +268,19 @@ jobs = [
     "chanteuse",
     "bureaucrat"
 ]
+
+planetTypes = [
+    "pleasure planet %%planet%%",
+    "exile planet %%planet%%",
+    "desert planet %%planet%%",
+    "the ice moon of %%planet%%",
+    "planet %%planet%%",
+    "floating city of %%planet%%",
+    "starbase %%planet%%",
+    "the cloud city of %%planet%%",
+    "the %%planet%% asteroid",
+    "the %%planet%% system",
+    "the %%planet%% empire",
+    "lava planet %%planet%%"
+]
+    
