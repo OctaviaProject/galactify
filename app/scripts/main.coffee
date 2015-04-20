@@ -24,9 +24,9 @@ morph = (name, K) ->
         i = randint N
         letter = name[i]
         if letter in vowels
-            new_letter = vowels[randint vowels.length]
+            new_letter = vowels.replace(letter,'')[randint vowels.length - 1]
         else if letter in consonants
-            new_letter = consonants[randint consonants.length]
+            new_letter = consonants.replace(letter,'')[randint consonants.length - 1]
         else
             new_letter = letter
         name = replaceCharAt name, new_letter, i
@@ -37,10 +37,12 @@ morphMe = ->
     K = name.length / 3
     morphedName = morph name, K
     res = result morphedName
-    bio = "You are #{morphedName}, the #{res.adjective} #{res.job} from #{res.planet}."
+    bio = "#{morphedName}, the #{res.adjective} #{res.job} from #{res.planet}."
     snapshot()
     morphPhoto()
-    $('#bio').html bio
+    $('#bio').html "You are #{bio}"
+    tweetText = "I am #{bio}"
+    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?button_hashtag=OPLaunchParty&text=#{tweetText}")
     fadeInOutput = -> 
         $('#results-view').fadeIn tFade
         addToGallery(morphedName, res.adjective, res.job, res.planet)
@@ -48,12 +50,13 @@ morphMe = ->
 
 getPlanetName = ->
     N = 1 + randint 7
-    if Math.random() < 0.3 then vowel is true
+    vowel = yes if (Math.random() < 0.1) # 10% start with a vowel
     name = ''
     for x in [0..N]
         c = if vowel then pickFrom vowels else pickFrom consonants
         vowel = not vowel
         name += c
+        if c is 'q' then name += 'u'
     capitalize name 
 
 reset = ->
@@ -172,7 +175,6 @@ adjectives = [
     "fuzzy",
     "feline",
     "flickering",
-    "French",
     "gleaming",
     "majestic",
     "hilarious",
@@ -208,11 +210,12 @@ adjectives = [
     "holographic",
     "teenage",
     "zesty",
-    "wide-eyed",
-    "bite-sized",
     "reclusive",
     "subterranean",
-    "microscopic"
+    "microscopic",
+    "plucky",
+    "thousand year-old",
+    "golden",
 ]
 
 jobs = [
