@@ -32,7 +32,7 @@ morph = (name, K) ->
         name = replaceCharAt name, new_letter, i
     capitalize name
 
-morphMe = ->
+galactifyMe = ->
     name = $('#name').val()
     K = name.length / 3
     morphedName = morph name, K
@@ -42,7 +42,7 @@ morphMe = ->
     morphPhoto()
     $('#bio').html "You are #{bio}"
     tweetText = "I am #{bio}"
-    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?button_hashtag=OPLaunchParty&text=#{tweetText}")
+    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?hashtags=OPLaunchParty,galactify&text=#{tweetText}")
     fadeInOutput = -> 
         $('#results-view').fadeIn tFade
         addToGallery(morphedName, res.adjective, res.job, res.planet)
@@ -68,9 +68,9 @@ reset = ->
     $('#results-view').fadeOut tFade, fadeInInput
 
 $(document) .keypress (e) ->
-    if e.which is 13 then morphMe()
+    if e.which is 13 then galactifyMe()
 
-$('#morph-me') .click (e) -> morphMe()
+$('#galactify-me') .click (e) -> galactifyMe()
 
 $('#again') .click (e) -> reset()
 
@@ -200,7 +200,6 @@ adjectives = [
     "stylish",
     "sophisticated",
     "serpentine",
-    "thirsty",
     "triangular",
     "tidy",
     "tender",
@@ -216,6 +215,8 @@ adjectives = [
     "plucky",
     "thousand year-old",
     "golden",
+    "genderless",
+    "chameleon",
 ]
 
 jobs = [
@@ -269,7 +270,10 @@ jobs = [
     "scrap collector",
     "mind harpist",
     "chanteuse",
-    "bureaucrat"
+    "bureaucrat",
+    "radio bandit",
+    "meal encoder",
+    "time shaman",
 ]
 
 planetTypes = [
@@ -286,4 +290,3 @@ planetTypes = [
     "the %%planet%% empire",
     "lava planet %%planet%%"
 ]
-    
