@@ -359,7 +359,7 @@ module.exports = function (grunt) {
       },
       pages: {
         options: {
-          remote: 'git@github.com:OctaviaProject/morph.git',
+          remote: 'git@github.com:OctaviaProject/galactify.git',
           branch: 'gh-pages'
         }
       }
