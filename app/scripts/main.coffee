@@ -116,6 +116,19 @@ snapshot = ->
 
 addToGallery = (name, adjective, job, planet) ->
     img = window.canvas.toDataURL('image/png')
+    writeIntoLocalStorage(name, adjective, job, planet, img)
+    writeIntoGalleryView(name, adjective, job, planet, img)
+
+writeIntoLocalStorage = (name, adjective, job, planet, img) ->
+    galactify_gallery = JSON.parse(localStorage.getItem("galactify_gallery"))
+    new_entry = {'name': name, 'adjective': adjective, 'job': job, 'planet': planet, 'img': img}
+    if galactify_gallery
+       galactify_gallery.push(new_entry)
+    else
+       galactify_gallery = [new_entry]
+    localStorage.setItem("galactify_gallery", JSON.stringify(galactify_gallery))
+
+writeIntoGalleryView = (name, adjective, job, planet, img) ->
     imgElement = $(document.createElement('img'))
     imgElement.attr('src', img)
     imgElement.attr('title', "#{adjective} #{job}, #{planet}")
@@ -127,6 +140,13 @@ addToGallery = (name, adjective, job, planet) ->
     divElement.append imgElement
     divElement.append spanElement
     $('#gallery-view').prepend divElement
+
+clearGalleryAndLoadFromLocalStorage = ->
+    $('#gallery-view').empty()
+    galactify_gallery = JSON.parse(localStorage.getItem("galactify_gallery"))
+    if galactify_gallery
+       for entry in galactify_gallery
+           writeIntoGalleryView(entry.name, entry.adjective, entry.job, entry.planet, entry.img)
 
 mediaCallback = (s) -> 
     video.src = window.URL.createObjectURL(s)
@@ -290,3 +310,5 @@ planetTypes = [
     "the %%planet%% empire",
     "lava planet %%planet%%"
 ]
+
+clearGalleryAndLoadFromLocalStorage()
