@@ -133,16 +133,15 @@ writeIntoGalleryView = (name, adjective, job, planet, img) ->
     imgElement.attr('src', img)
     imgElement.attr('title', "#{adjective} #{job}, #{planet}")
     imgElement.tooltip()
-    spanElement = $(document.createElement('span'))
-    spanElement.html(name)
+    nameElement = $(document.createElement('div'))
+    nameElement.html(name)
     divElement = $(document.createElement('div'))
     divElement.attr 'class', 'bio-container'
     divElement.append imgElement
-    divElement.append spanElement
+    divElement.append nameElement
     $('#gallery-view').prepend divElement
 
-clearGalleryAndLoadFromLocalStorage = ->
-    $('#gallery-view').empty()
+loadFromLocalStorage = ->
     galactify_gallery = JSON.parse(localStorage.getItem("galactify_gallery"))
     if galactify_gallery
        for entry in galactify_gallery
@@ -311,4 +310,4 @@ planetTypes = [
     "lava planet %%planet%%"
 ]
 
-clearGalleryAndLoadFromLocalStorage()
+loadFromLocalStorage()
