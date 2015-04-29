@@ -115,7 +115,8 @@ snapshot = ->
     if localMediaStream then window.ctx.drawImage video, 0, 0, 300, 300
 
 addToGallery = (name, adjective, job, planet) ->
-    img = window.canvas.toDataURL('image/png')
+    #img = window.canvas.toDataURL('image/png')
+    img = window.canvas.toDataURL('image/jpeg', 0.5) # Try low quality
     writeIntoLocalStorage(name, adjective, job, planet, img)
     writeIntoGalleryView(name, adjective, job, planet, img)
 
