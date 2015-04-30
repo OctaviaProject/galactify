@@ -42,7 +42,7 @@ galactifyMe = ->
     morphPhoto()
     $('#bio').html "You are #{bio}"
     tweetText = "I am #{bio} @octaviaprojnyc"
-    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?hashtags=galactify&text=#{tweetText}")
+    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?hashtags=galactify&url=http://octaviaproject.org/galactify&text=#{tweetText}")
     fadeInOutput = -> 
         $('#results-view').fadeIn tFade
         addToGallery(morphedName, res.adjective, res.job, res.planet)
