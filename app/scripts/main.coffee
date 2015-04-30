@@ -42,7 +42,7 @@ galactifyMe = ->
     morphPhoto()
     $('#bio').html "You are #{bio}"
     tweetText = "I am #{bio}"
-    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?hashtags=OPLaunchParty,galactify&text=#{tweetText}")
+    $('#tweetlink').attr("href","https://twitter.com/intent/tweet?hashtags=galactify&text=#{tweetText}")
     fadeInOutput = -> 
         $('#results-view').fadeIn tFade
         addToGallery(morphedName, res.adjective, res.job, res.planet)
@@ -142,7 +142,7 @@ writeIntoGalleryView = (name, adjective, job, planet, img) ->
     divElement.append nameElement
     $('#gallery-view').prepend divElement
 
-loadFromLocalStorage = ->
+do loadFromLocalStorage = ->
     galactify_gallery = JSON.parse(localStorage.getItem("galactify_gallery"))
     if galactify_gallery
        for entry in galactify_gallery
@@ -311,4 +311,28 @@ planetTypes = [
     "lava planet %%planet%%"
 ]
 
-loadFromLocalStorage()
+$('#tweet').click (e) ->
+    uploadImage()
+
+uploadImage = ->
+    img = window.canvas.toDataURL('image/png').split(',')[1]
+    clientID = 'b6ab8f54ce92fd7'
+    authorization = 'Client-ID ' + clientID;
+
+    $.ajax
+        url: 'https://api.imgur.com/3/image',
+        method: 'POST',
+        headers:
+            Authorization: authorization
+            Accept: 'application/json'
+        data:
+            image: img
+            type: 'base64'
+        success: (res) ->
+            imgurLink = res.data.link
+            imgurLink = imgurLink.replace('i.','')
+            imgurLink = imgurLink.replace('.png','')
+            href = $("#tweetlink").attr('href')
+            href += " #{imgurLink}"
+            $("#tweetlink").attr('href', href)
+            $("#tweetlink")[0].click()
