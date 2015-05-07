@@ -12,8 +12,8 @@ capitalize = (str) ->
 pickFrom = (list) ->
     list[randint list.length]
         
-vowels = "aeoiu"
-consonants = "bcdfghjklmnpqrstvwxyz"
+window.vowels = "aeoiu"
+window.consonants = "bcdfghjklmnpqrstvwxyz"
 
 tFade = 1000
 
@@ -38,8 +38,9 @@ galactifyMe = ->
     morphedName = morph name, K
     res = result morphedName
     bio = "#{morphedName}, the #{res.adjective} #{res.job} from #{res.planet}."
-    snapshot()
-    morphPhoto()
+    if navigator.getUserMedia
+        snapshot()
+        morphPhoto()
     $('#bio').html "You are #{bio}"
     tweetText = "I am #{bio} @octaviaprojnyc"
     $('#tweetlink').attr("href","https://twitter.com/intent/tweet?hashtags=galactify&url=http://octaviaproject.org/galactify&text=#{tweetText}")
@@ -142,7 +143,7 @@ writeIntoGalleryView = (name, adjective, job, planet, img) ->
     divElement.append nameElement
     $('#gallery-view').prepend divElement
 
-loadFromLocalStorage = ->
+do loadFromLocalStorage = ->
     galactify_gallery = JSON.parse(localStorage.getItem("galactify_gallery"))
     if galactify_gallery
        for entry in galactify_gallery
@@ -155,7 +156,10 @@ mediaCallback = (s) ->
 mediaErrback = ->
     console.log 'foo'
 
-navigator.getUserMedia { video: true }, mediaCallback, mediaErrback
+if navigator.getUserMedia
+    navigator.getUserMedia { video: true }, mediaCallback, mediaErrback
+else
+    window.alert "We can't fully galactify you in your browser :(. Try Chrome or Firefox for the full experience."
 
 morphPhoto = ->
     Caman "#photo", ->
@@ -310,5 +314,3 @@ planetTypes = [
     "the %%planet%% empire",
     "lava planet %%planet%%"
 ]
-
-loadFromLocalStorage()
